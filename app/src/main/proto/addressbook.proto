@@ -1,0 +1,44 @@
+// 指定 Protocol Buffers 语法版本
+syntax = "proto2";
+
+package tutorial;
+
+option java_multiple_files = true;
+
+// 生成 Java 源文件包名
+option java_package = "com.example.tutorial.protos";
+// 生成 Java 源文件类名
+option java_outer_classname = "AddressBookProtos";
+
+// message 相当于 Java 中的 class
+// 编译出的源文件就是 class Person{}
+message Person {
+
+  // String 类型的字段
+  // 字段前有 optional 和 required 修饰
+  optional string name = 1;
+  // int 整型 , 32 位
+  optional int32 id = 2;
+  optional string email = 3;
+
+  // 枚举
+  enum PhoneType {
+    MOBILE = 0;
+    HOME = 1;
+    WORK = 2;
+  }
+
+  message PhoneNumber {
+    optional string number = 1;
+    // 字段值是枚举类型, 默认是 HOME 类型
+    optional PhoneType type = 2 [default = HOME];
+  }
+
+  // 表示重复的数据 , 即集合
+  // 有多个 PhoneNumber phones 组成的集合
+  repeated PhoneNumber phones = 4;
+}
+
+message AddressBook {
+  repeated Person people = 1;
+}
